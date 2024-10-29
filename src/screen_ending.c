@@ -70,7 +70,7 @@ void UpdateEndingScreen(void)
 void DrawEndingScreen(void)
 {
     // TODO: Draw ENDING screen here!
-    DrawRectangle(0, 0, GetScreenWidth(), GetScreenHeight(), BLUE);
+    DrawRectangle(0, 0, GetScreenWidth(), GetScreenHeight(), BLACK);
 
     char buffer[128];
     if(Score == MaxScore)
@@ -83,8 +83,8 @@ void DrawEndingScreen(void)
     }
 
 
-    DrawText(buffer, 120, 220, 20, DARKBLUE);
-    DrawText("PRESS ENTER or TAP to RETURN to TITLE SCREEN", 120, 260, 20, DARKBLUE);
+    DrawText(buffer, 120, 220, 20, DARKGREEN);
+    DrawText("Click or TAP to go back to the title screen", 120, 260, 20, DARKGREEN);
 }
 
 // Ending Screen Unload logic

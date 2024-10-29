@@ -74,10 +74,7 @@ void InitGameplayScreen(void)
     // Random select starting dot
     StartingDotIndex = GetRandomValue(0, DOTS - 1);
     CurrentDotIndex = StartingDotIndex;
-    
-    // Camera over starting dot
-
-
+    SelectedDotIndex = -1;
     
     framesCounter = 0;
     finishScreen = 0;
@@ -161,6 +158,11 @@ void UpdateGameplayScreen(void)
         Score = Points;
         finishScreen = 1; 
     }
+
+    if(IsKeyPressed(KEY_R))
+    {
+        InitGameplayScreen();
+    }
 }
 
 // Gameplay Screen Draw logic
@@ -168,22 +170,22 @@ void DrawGameplayScreen(void)
 {
     // TODO: Draw GAMEPLAY screen here!
     // Background
-    DrawRectangle(0, 0, GetScreenWidth(), GetScreenHeight(), PURPLE);
+    DrawRectangle(0, 0, GetScreenWidth(), GetScreenHeight(), BLACK);
     // Draw dots
     for(int i = 0; i < DOTS; ++i)
     {
         Color color;
         if(i == CurrentDotIndex)
         {
-            color = BLUE;
+            color = GREEN;
         }
         else if (AllDots[i].Next != NULL || AllDots[i].Prev != NULL)
         {
-            color = BLUE;
+            color = GREEN;
         }
         else if (i == SelectedDotIndex)
         {
-           color = SKYBLUE; 
+           color = DARKGREEN; 
         }
         else
         {
@@ -196,11 +198,11 @@ void DrawGameplayScreen(void)
     EntityDot* currentDot = &AllDots[StartingDotIndex];
     while(currentDot->Next != NULL)
     {
-        DrawLine(currentDot->WorldPosition.x, currentDot->WorldPosition.y, currentDot->Next->WorldPosition.x, currentDot->Next->WorldPosition.y, BLUE);
+        DrawLine(currentDot->WorldPosition.x, currentDot->WorldPosition.y, currentDot->Next->WorldPosition.x, currentDot->Next->WorldPosition.y, GREEN);
         currentDot = currentDot->Next;
     }
     Vector2 mousePos = GetMousePosition();
-    Color lineColor = SKYBLUE;
+    Color lineColor = DARKGREEN;
     if(IntersectsWithExisting(&mousePos))
     {
        lineColor = GRAY; 
@@ -216,7 +218,7 @@ void DrawGameplayScreen(void)
     char scoreBuffer[32];
     snprintf(scoreBuffer, sizeof scoreBuffer, "Points: %d", Points);
     Vector2 pos = { 20, 10 };
-    DrawTextEx(font, scoreBuffer, pos, font.baseSize*3.0f, 4, DARKBLUE);
+    DrawTextEx(font, scoreBuffer, pos, font.baseSize*3.0f, 4, DARKGREEN);
 }
 
 // Gameplay Screen Unload logic

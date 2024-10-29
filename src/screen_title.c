@@ -23,6 +23,8 @@
 *
 **********************************************************************************************/
 
+#include <stdio.h>
+
 #include "raylib.h"
 #include "screens.h"
 
@@ -64,10 +66,17 @@ void UpdateTitleScreen(void)
 void DrawTitleScreen(void)
 {
     // TODO: Draw TITLE screen here!
-    DrawRectangle(0, 0, GetScreenWidth(), GetScreenHeight(), GREEN);
+    DrawRectangle(0, 0, GetScreenWidth(), GetScreenHeight(), BLACK);
     Vector2 pos = { 20, 10 };
-    DrawTextEx(font, "TITLE SCREEN", pos, font.baseSize*3.0f, 4, DARKGREEN);
-    DrawText("PRESS ENTER or TAP to JUMP to GAMEPLAY SCREEN", 120, 220, 20, DARKGREEN);
+    DrawTextEx(font, "Connecting the dots", pos, font.baseSize*3.0f, 4, DARKGREEN);
+    int startY = 200;
+    DrawText("Connect the dots without crossing paths,", 120, startY, 20, DARKGREEN);
+    DrawText("the longer the connection the bigger the points!", 120, startY+20, 20, DARKGREEN);
+    char buffer[128];
+    snprintf(buffer, sizeof buffer, "Your current record is %d points!", MaxScore);
+    DrawText(buffer, 120, startY+60, 20, DARKGREEN);
+    DrawText("Click or TAP to play", 120, startY+140, 20, DARKGREEN);
+    DrawText("Press R to restart", 120, startY+160, 20, DARKGREEN);
 }
 
 // Title Screen Unload logic
