@@ -24,6 +24,7 @@
 **********************************************************************************************/
 
 #include "raylib.h"
+#include "raymath.h"
 #include "screens.h"
 
 //----------------------------------------------------------------------------------
@@ -36,10 +37,43 @@ static int finishScreen = 0;
 // Gameplay Screen Functions Definition
 //----------------------------------------------------------------------------------
 
+typedef struct EntityDot
+{
+    Vector2 WorldPosition;
+    struct EntityDot* Prev;
+    struct EntityDot* Next;
+} EntityDot;
+
+const int DOTS = 10;
+const float DOT_RADIUS = 5.f;
+
+static EntityDot* AllDots;
+static int StartingDotIndex;
+static int CurrentDotIndex;
+static int SelectedDotIndex;
+
 // Gameplay Screen Initialization logic
 void InitGameplayScreen(void)
 {
     // TODO: Initialize GAMEPLAY screen variables here!
+    // Random draw dots in world
+    AllDots = MemAlloc(sizeof(EntityDot) * DOTS);
+    for(int i = 0; i < DOTS; ++i)
+    {
+       AllDots[i] = (EntityDot) {
+          (Vector2) {i * 10, i * 10},
+           NULL,
+           NULL
+       };
+    }
+    // Random select starting dot
+    StartingDotIndex = GetRandomValue(0, DOTS - 1);
+    CurrentDotIndex = StartingDotIndex;
+    
+    // Camera over starting dot
+
+
+    
     framesCounter = 0;
     finishScreen = 0;
 }
@@ -48,29 +82,88 @@ void InitGameplayScreen(void)
 void UpdateGameplayScreen(void)
 {
     // TODO: Update GAMEPLAY screen variables here!
+    // if no available dots on screen -> End screen
+    // If hover dots -> select dot
+    // If tap dots && no selected dot -> select dot
+    // if click || (tap dot == selected dot) -> create connection
+    // create connection -> move camera to end dot
 
-    // Press enter or tap to change to ENDING screen
-    if (IsKeyPressed(KEY_ENTER) || IsGestureDetected(GESTURE_TAP))
+    if(Vector2LengthSqr(GetMouseDelta()) > 0)
     {
-        finishScreen = 1;
-        PlaySound(fxCoin);
+        Vector2 mousePosition = GetMousePosition();
+        SelectedDotIndex = -1;
+        for(int i = 0; i < DOTS; i++)
+        {
+            if (Vector2Distance(mousePosition, AllDots[i].WorldPosition) < DOT_RADIUS)
+            {
+                SelectedDotIndex = i;
+                break;
+            }
+        }
     }
+    
+    if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT) && SelectedDotIndex != -1 && AllDots[SelectedDotIndex].Next == NULL && AllDots[SelectedDotIndex].Prev == NULL)
+    {
+        AllDots[CurrentDotIndex].Next = &AllDots[SelectedDotIndex];
+        AllDots[SelectedDotIndex].Prev = &AllDots[CurrentDotIndex];
+
+        CurrentDotIndex = SelectedDotIndex;
+        SelectedDotIndex = -1;
+    }
+
+    // // Press enter or tap to change to ENDING screen
+    // if (IsKeyPressed(KEY_ENTER) || IsGestureDetected(GESTURE_TAP))
+    // {
+    //     finishScreen = 1;
+    //     PlaySound(fxCoin);
+    // }
 }
 
 // Gameplay Screen Draw logic
 void DrawGameplayScreen(void)
 {
     // TODO: Draw GAMEPLAY screen here!
+    // Background
     DrawRectangle(0, 0, GetScreenWidth(), GetScreenHeight(), PURPLE);
-    Vector2 pos = { 20, 10 };
-    DrawTextEx(font, "GAMEPLAY SCREEN", pos, font.baseSize*3.0f, 4, MAROON);
-    DrawText("PRESS ENTER or TAP to JUMP to ENDING SCREEN", 130, 220, 20, MAROON);
+    // Draw dots
+    for(int i = 0; i < DOTS; ++i)
+    {
+        Color color;
+        if(i == CurrentDotIndex)
+        {
+            color = BLUE;
+        }
+        else if (AllDots[i].Next != NULL || AllDots[i].Prev != NULL)
+        {
+            color = GRAY;
+        }
+        else if (i == SelectedDotIndex)
+        {
+           color = WHITE; 
+        }
+        else
+        {
+            color = MAROON;
+        }
+        DrawCircle(AllDots[i].WorldPosition.x, AllDots[i].WorldPosition.y, DOT_RADIUS, color);
+    }
+
+    //Draw connections
+    EntityDot* currentDot = &AllDots[StartingDotIndex];
+    while(currentDot->Next != NULL)
+    {
+        DrawLine(currentDot->WorldPosition.x, currentDot->WorldPosition.y, currentDot->Next->WorldPosition.x, currentDot->Next->WorldPosition.y, MAROON);
+        currentDot = currentDot->Next;
+    }
+    Vector2 mousePos = GetMousePosition();
+    DrawLine(currentDot->WorldPosition.x, currentDot->WorldPosition.y, mousePos.x, mousePos.y, BLUE);
 }
 
 // Gameplay Screen Unload logic
 void UnloadGameplayScreen(void)
 {
     // TODO: Unload GAMEPLAY screen variables here!
+    MemFree(AllDots);
 }
 
 // Gameplay Screen should finish?
