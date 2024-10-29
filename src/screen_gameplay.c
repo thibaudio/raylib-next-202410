@@ -23,6 +23,8 @@
 *
 **********************************************************************************************/
 
+#include <stdio.h>
+
 #include "raylib.h"
 #include "raymath.h"
 #include "screens.h"
@@ -52,16 +54,19 @@ static int StartingDotIndex;
 static int CurrentDotIndex;
 static int SelectedDotIndex;
 
+static int Points;
+
 // Gameplay Screen Initialization logic
 void InitGameplayScreen(void)
 {
     // TODO: Initialize GAMEPLAY screen variables here!
+    Points = 0;
     // Random draw dots in world
     AllDots = MemAlloc(sizeof(EntityDot) * DOTS);
     for(int i = 0; i < DOTS; ++i)
     {
        AllDots[i] = (EntityDot) {
-          (Vector2) {i * 10, i * 10},
+          (Vector2) {GetRandomValue(10, GetScreenWidth() - 10 ), GetRandomValue(10, GetScreenHeight() - 10)},
            NULL,
            NULL
        };
@@ -76,6 +81,21 @@ void InitGameplayScreen(void)
     
     framesCounter = 0;
     finishScreen = 0;
+}
+
+bool IntersectsWithExisting(const Vector2* point)
+{
+    EntityDot* currentDot = &AllDots[StartingDotIndex];
+    while(currentDot->Next != &AllDots[CurrentDotIndex] && currentDot->Next != NULL)
+    {
+        Vector2 collisionPoint;
+        if(CheckCollisionLines(currentDot->WorldPosition, currentDot->Next->WorldPosition, AllDots[CurrentDotIndex].WorldPosition, *point, &collisionPoint))
+        {
+            return true;
+        }
+        currentDot = currentDot->Next;
+    }
+    return false;
 }
 
 // Gameplay Screen Update logic
@@ -100,10 +120,19 @@ void UpdateGameplayScreen(void)
                 break;
             }
         }
+        if(SelectedDotIndex != -1)
+        {
+            if(IntersectsWithExisting(&AllDots[SelectedDotIndex].WorldPosition))
+            {
+                SelectedDotIndex = -1;
+            }
+        }
     }
     
     if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT) && SelectedDotIndex != -1 && AllDots[SelectedDotIndex].Next == NULL && AllDots[SelectedDotIndex].Prev == NULL)
     {
+        Points += (int) floorf(Vector2DistanceSqr(AllDots[CurrentDotIndex].WorldPosition, AllDots[SelectedDotIndex].WorldPosition));
+        
         AllDots[CurrentDotIndex].Next = &AllDots[SelectedDotIndex];
         AllDots[SelectedDotIndex].Prev = &AllDots[CurrentDotIndex];
 
@@ -111,12 +140,21 @@ void UpdateGameplayScreen(void)
         SelectedDotIndex = -1;
     }
 
-    // // Press enter or tap to change to ENDING screen
-    // if (IsKeyPressed(KEY_ENTER) || IsGestureDetected(GESTURE_TAP))
-    // {
-    //     finishScreen = 1;
-    //     PlaySound(fxCoin);
-    // }
+    bool existingNextMove = false;
+    for(int i = 0; i < DOTS; ++i)
+    {
+        if(i == CurrentDotIndex || i == StartingDotIndex) continue;
+        if(AllDots[i].Next != NULL) continue;
+        if(!IntersectsWithExisting(&AllDots[i].WorldPosition))
+        {
+            existingNextMove = true;
+            break;
+        }
+    }
+    if(existingNextMove == false)
+    {
+       finishScreen = 1; 
+    }
 }
 
 // Gameplay Screen Draw logic
@@ -135,7 +173,7 @@ void DrawGameplayScreen(void)
         }
         else if (AllDots[i].Next != NULL || AllDots[i].Prev != NULL)
         {
-            color = GRAY;
+            color = BLUE;
         }
         else if (i == SelectedDotIndex)
         {
@@ -152,11 +190,21 @@ void DrawGameplayScreen(void)
     EntityDot* currentDot = &AllDots[StartingDotIndex];
     while(currentDot->Next != NULL)
     {
-        DrawLine(currentDot->WorldPosition.x, currentDot->WorldPosition.y, currentDot->Next->WorldPosition.x, currentDot->Next->WorldPosition.y, MAROON);
+        DrawLine(currentDot->WorldPosition.x, currentDot->WorldPosition.y, currentDot->Next->WorldPosition.x, currentDot->Next->WorldPosition.y, BLUE);
         currentDot = currentDot->Next;
     }
     Vector2 mousePos = GetMousePosition();
-    DrawLine(currentDot->WorldPosition.x, currentDot->WorldPosition.y, mousePos.x, mousePos.y, BLUE);
+    Color lineColor = BLUE;
+    if(IntersectsWithExisting(&mousePos))
+    {
+       lineColor = GRAY; 
+    }
+    DrawLine(currentDot->WorldPosition.x, currentDot->WorldPosition.y, mousePos.x, mousePos.y, lineColor);
+
+    char buffer[32];
+    snprintf(buffer, sizeof buffer, "Points: %d", Points);
+    Vector2 pos = { 20, 10 };
+    DrawTextEx(font, buffer, pos, font.baseSize*3.0f, 4, DARKBLUE);
 }
 
 // Gameplay Screen Unload logic
