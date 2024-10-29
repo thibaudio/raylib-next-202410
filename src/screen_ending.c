@@ -23,6 +23,8 @@
 *
 **********************************************************************************************/
 
+#include <stdio.h>
+
 #include "raylib.h"
 #include "screens.h"
 
@@ -40,6 +42,13 @@ static int finishScreen = 0;
 void InitEndingScreen(void)
 {
     // TODO: Initialize ENDING screen variables here!
+
+    if(Score > MaxScore)
+    {
+        MaxScore = Score;
+        SaveStorageValue(0, MaxScore);
+    }
+    
     framesCounter = 0;
     finishScreen = 0;
 }
@@ -63,9 +72,19 @@ void DrawEndingScreen(void)
     // TODO: Draw ENDING screen here!
     DrawRectangle(0, 0, GetScreenWidth(), GetScreenHeight(), BLUE);
 
-    Vector2 pos = { 20, 10 };
-    DrawTextEx(font, "ENDING SCREEN", pos, font.baseSize*3.0f, 4, DARKBLUE);
-    DrawText("PRESS ENTER or TAP to RETURN to TITLE SCREEN", 120, 220, 20, DARKBLUE);
+    char buffer[128];
+    if(Score == MaxScore)
+    {
+        snprintf(buffer, sizeof buffer, "Congratulations, you broke your record! You got %d points!", Score);
+    }
+    else
+    {
+        snprintf(buffer, sizeof buffer, "You got %d points, your personnal record is %d", Score, MaxScore);
+    }
+
+
+    DrawText(buffer, 120, 220, 20, DARKBLUE);
+    DrawText("PRESS ENTER or TAP to RETURN to TITLE SCREEN", 120, 260, 20, DARKBLUE);
 }
 
 // Ending Screen Unload logic

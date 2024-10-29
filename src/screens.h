@@ -38,11 +38,15 @@ extern GameScreen currentScreen;
 extern Font font;
 extern Music music;
 extern Sound fxCoin;
+extern int Score;
+extern int MaxScore;
 
 #ifdef __cplusplus
 extern "C" {            // Prevents name mangling of functions
 #endif
 
+extern bool SaveStorageValue(unsigned int position, int value);
+extern int LoadStorageValue(unsigned int position);   
 //----------------------------------------------------------------------------------
 // Logo Screen Functions Declaration
 //----------------------------------------------------------------------------------

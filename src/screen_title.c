@@ -42,6 +42,8 @@ void InitTitleScreen(void)
     // TODO: Initialize TITLE screen variables here!
     framesCounter = 0;
     finishScreen = 0;
+
+    MaxScore = LoadStorageValue(0);
 }
 
 // Title Screen Update logic

@@ -46,7 +46,7 @@ typedef struct EntityDot
     struct EntityDot* Next;
 } EntityDot;
 
-const int DOTS = 10;
+const int DOTS = 20;
 const float DOT_RADIUS = 5.f;
 
 static EntityDot* AllDots;
@@ -66,7 +66,7 @@ void InitGameplayScreen(void)
     for(int i = 0; i < DOTS; ++i)
     {
        AllDots[i] = (EntityDot) {
-          (Vector2) {GetRandomValue(10, GetScreenWidth() - 10 ), GetRandomValue(10, GetScreenHeight() - 10)},
+          (Vector2) {GetRandomValue(10, GetScreenWidth() - 10 ), GetRandomValue(30, GetScreenHeight() - 10)},
            NULL,
            NULL
        };
@@ -96,6 +96,11 @@ bool IntersectsWithExisting(const Vector2* point)
         currentDot = currentDot->Next;
     }
     return false;
+}
+
+int PointIncrease(const Vector2* point)
+{
+    return (int) floorf(Vector2DistanceSqr(AllDots[CurrentDotIndex].WorldPosition, *point));
 }
 
 // Gameplay Screen Update logic
@@ -131,7 +136,7 @@ void UpdateGameplayScreen(void)
     
     if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT) && SelectedDotIndex != -1 && AllDots[SelectedDotIndex].Next == NULL && AllDots[SelectedDotIndex].Prev == NULL)
     {
-        Points += (int) floorf(Vector2DistanceSqr(AllDots[CurrentDotIndex].WorldPosition, AllDots[SelectedDotIndex].WorldPosition));
+        Points += PointIncrease(&AllDots[SelectedDotIndex].WorldPosition);
         
         AllDots[CurrentDotIndex].Next = &AllDots[SelectedDotIndex];
         AllDots[SelectedDotIndex].Prev = &AllDots[CurrentDotIndex];
@@ -153,7 +158,8 @@ void UpdateGameplayScreen(void)
     }
     if(existingNextMove == false)
     {
-       finishScreen = 1; 
+        Score = Points;
+        finishScreen = 1; 
     }
 }
 
@@ -177,7 +183,7 @@ void DrawGameplayScreen(void)
         }
         else if (i == SelectedDotIndex)
         {
-           color = WHITE; 
+           color = SKYBLUE; 
         }
         else
         {
@@ -194,7 +200,7 @@ void DrawGameplayScreen(void)
         currentDot = currentDot->Next;
     }
     Vector2 mousePos = GetMousePosition();
-    Color lineColor = BLUE;
+    Color lineColor = SKYBLUE;
     if(IntersectsWithExisting(&mousePos))
     {
        lineColor = GRAY; 
@@ -202,9 +208,15 @@ void DrawGameplayScreen(void)
     DrawLine(currentDot->WorldPosition.x, currentDot->WorldPosition.y, mousePos.x, mousePos.y, lineColor);
 
     char buffer[32];
-    snprintf(buffer, sizeof buffer, "Points: %d", Points);
+    snprintf(buffer, sizeof buffer, "+%d", PointIncrease(&mousePos));
+    Vector2 textPos = mousePos;
+    textPos.x += 10;
+    DrawTextEx(font, buffer, textPos, font.baseSize*3.0f, 4, lineColor);
+
+    char scoreBuffer[32];
+    snprintf(scoreBuffer, sizeof scoreBuffer, "Points: %d", Points);
     Vector2 pos = { 20, 10 };
-    DrawTextEx(font, buffer, pos, font.baseSize*3.0f, 4, DARKBLUE);
+    DrawTextEx(font, scoreBuffer, pos, font.baseSize*3.0f, 4, DARKBLUE);
 }
 
 // Gameplay Screen Unload logic

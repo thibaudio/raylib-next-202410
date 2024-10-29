@@ -7,9 +7,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="32a2d832-3b08-452c-95a4-11b4a89ddf97" name="Changes" comment="Rider workspace">
+    <list default="true" id="32a2d832-3b08-452c-95a4-11b4a89ddf97" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.raylib_game_template/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.raylib_game_template/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../src/raylib_game.c" beforeDir="false" afterPath="$PROJECT_DIR$/../../src/raylib_game.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../src/screen_ending.c" beforeDir="false" afterPath="$PROJECT_DIR$/../../src/screen_ending.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../src/screen_gameplay.c" beforeDir="false" afterPath="$PROJECT_DIR$/../../src/screen_gameplay.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../src/screen_title.c" beforeDir="false" afterPath="$PROJECT_DIR$/../../src/screen_title.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../src/screens.h" beforeDir="false" afterPath="$PROJECT_DIR$/../../src/screens.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -23,6 +27,8 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="mock://C:/work/perso/raylib/raylib-next-202410/src/raylib_game.c" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/work/perso/raylib/raylib-next-202410/src/raylib_game.c" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://C:/work/perso/raylib/raylib-next-202410/src/screen_gameplay.c" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />
@@ -156,7 +162,8 @@
       <option name="presentableId" value="Default" />
       <updated>1730199587087</updated>
       <workItem from="1730199588296" duration="66000" />
-      <workItem from="1730199667847" duration="5809000" />
+      <workItem from="1730199667847" duration="7378000" />
+      <workItem from="1730214328787" duration="7342000" />
     </task>
     <task id="LOCAL-00001" summary="Rider workspace">
       <option name="closed" value="true" />
@@ -174,7 +181,31 @@
       <option name="project" value="LOCAL" />
       <updated>1730200035111</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Rider workspace">
+      <option name="closed" value="true" />
+      <created>1730207416212</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1730207416212</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Some dots and lines">
+      <option name="closed" value="true" />
+      <created>1730207463237</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1730207463237</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Core loop done">
+      <option name="closed" value="true" />
+      <created>1730217124024</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1730217124024</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="UnityCheckinConfiguration" checkUnsavedScenes="true" />
@@ -182,6 +213,8 @@
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
     <MESSAGE value="Rider workspace" />
-    <option name="LAST_COMMIT_MESSAGE" value="Rider workspace" />
+    <MESSAGE value="Some dots and lines" />
+    <MESSAGE value="Core loop done" />
+    <option name="LAST_COMMIT_MESSAGE" value="Core loop done" />
   </component>
 </project>
