@@ -67,8 +67,7 @@ void DrawTitleScreen(void)
 {
     // TODO: Draw TITLE screen here!
     DrawRectangle(0, 0, GetScreenWidth(), GetScreenHeight(), BLACK);
-    Vector2 pos = { 20, 10 };
-    DrawTextEx(font, "Connecting the dots", pos, font.baseSize*3.0f, 4, DARKGREEN);
+    DrawText("Connecting the dots", 20, 10, 30, DARKGREEN);
     int startY = 200;
     DrawText("Connect the dots without crossing paths,", 120, startY, 20, DARKGREEN);
     DrawText("the longer the connection the bigger the points!", 120, startY+20, 20, DARKGREEN);

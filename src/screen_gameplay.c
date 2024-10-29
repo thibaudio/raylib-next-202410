@@ -213,12 +213,12 @@ void DrawGameplayScreen(void)
     snprintf(buffer, sizeof buffer, "+%d", PointIncrease(&mousePos));
     Vector2 textPos = mousePos;
     textPos.x += 10;
-    DrawTextEx(font, buffer, textPos, font.baseSize*3.0f, 4, lineColor);
+    //DrawTextEx(font, buffer, textPos, font.baseSize*3.0f, 4, lineColor);
+    DrawText(buffer, textPos.x, textPos.y, 20, lineColor);
 
     char scoreBuffer[32];
     snprintf(scoreBuffer, sizeof scoreBuffer, "Points: %d", Points);
-    Vector2 pos = { 20, 10 };
-    DrawTextEx(font, scoreBuffer, pos, font.baseSize*3.0f, 4, DARKGREEN);
+    DrawText(scoreBuffer, 20, 10, 30, DARKGREEN);
 }
 
 // Gameplay Screen Unload logic
