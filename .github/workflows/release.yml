@@ -19,17 +19,21 @@ jobs:
       
     env:
       PROJECT_NAME: ${{ github.event.repository.name }}
+      PROJECT_RELEASE_PATH: ${{ github.event.repository.name }}_dev_wasm
       
     steps:
       - name: Download artifact
         uses: actions/download-artifact@v4
         with:
-          name: ${{ needs.build.output.PROJECT_RELEASE_PATH }}
+          name: ${{ env.PROJECT_RELEASE_PATH }}
           
       - name: Setup release files
         run: |
           echo "PROJECT_RELEASE_NAME=${{ env.PROJECT_NAME }}_v${{ github.event.release.tag_name }}_wasm" >> $GITHUB_ENV
-          mv ${{ needs.build.output.PROJECT_RELEASE_PATH }} ${{ env.PROJECT_RELEASE_NAME }} 
+          
+      - name: Rename file
+        run: |
+          mv ${{ env.PROJECT_RELEASE_PATH }} ${{ env.PROJECT_RELEASE_NAME }} 
           
       - name: Upload Artifact to Release
         uses: softprops/action-gh-release@v1
