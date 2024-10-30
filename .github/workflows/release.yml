@@ -29,15 +29,24 @@ jobs:
           
       - name: Setup release files
         run: |
-          echo "PROJECT_RELEASE_NAME=${{ env.PROJECT_NAME }}_v${{ github.event.release.tag_name }}_wasm.zip" >> $GITHUB_ENV
+          echo "PROJECT_RELEASE_NAME=${{ env.PROJECT_NAME }}_v${{ github.event.release.tag_name }}_web.zip" >> $GITHUB_ENV
           
       - name: Rename file
         run: |
           mv ${{ env.PROJECT_RELEASE_PATH }}.zip ${{ env.PROJECT_RELEASE_NAME }} 
           
-      - name: Upload Artifact to Release
+      - name: Upload Artifact to GH Release
         uses: softprops/action-gh-release@v1
         with:
           files: ${{ env.PROJECT_RELEASE_NAME }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          
+      - name: Upload Artifact to itch.io
+        uses: Ayowel/butler-to-itch@v1.0.0
+        with:
+          butler_key: ${{ secrets.BUTLER_CREDENTIALS }}
+          itch_game: connecting-the-dots
+          itch_user: thibaudio
+          files: ${{ env.PROJECT_RELEASE_NAME }}
+          version: v${{ github.event.release.tag_name }}
