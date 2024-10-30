@@ -74,5 +74,5 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: ${{ env.PROJECT_RELEASE_PATH }}
-        path: ./${{ env.PROJECT_RELEASE_PATH }}
+        path: ./${{ env.PROJECT_RELEASE_PATH }}.zip
         compression-level: 0
