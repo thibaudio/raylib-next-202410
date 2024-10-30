@@ -2,26 +2,26 @@ name: WebAssembly
 
 on:
   workflow_dispatch:
+  workflow_call:
   push:
     paths:
       - 'src/**'
       - '.github/workflows/webassembly.yml'
-  release:
-    types: [published]
     
 permissions:
   contents: read
 
 jobs:
   build:
-    permissions:
-      contents: write       # for actions/upload-release-asset to upload release asset
     runs-on: windows-latest
     
     env:
       PROJECT_NAME: ${{ github.event.repository.name }}
       PROJECT_BUILD_PATH: ${{ github.event.repository.name }}\\src
       PROJECT_RELEASE_PATH: ${{ github.event.repository.name }}_dev_wasm
+      
+    outputs:
+      PROJECT_RELEASE_PATH: ${{ env.PROJECT_RELEASE_PATH }}
       
     steps:
     - name: Checkout this repo
@@ -41,12 +41,6 @@ jobs:
         version: 3.1.64
         actions-cache-folder: 'emsdk-cache'
         
-    - name: Setup Release Paths
-      run: |
-        echo "PROJECT_RELEASE_PATH=${{ env.PROJECT_NAME }}_v${{ github.event.release.tag_name }}_wasm" >> $GITHUB_ENV
-      shell: bash
-      if: github.event_name == 'release' && github.event.action == 'published'
-    
     - name: Setup Environment
       run: | 
         mkdir ${{ env.PROJECT_RELEASE_PATH }}
@@ -79,13 +73,6 @@ jobs:
     - name: Upload Artifacts
       uses: actions/upload-artifact@v4
       with:
-        name: ${{ env.PROJECT_RELEASE_PATH }}.zip
-        path: ./${{ env.PROJECT_RELEASE_PATH }}.zip
-
-    - name: Upload Artifact to Release
-      uses: softprops/action-gh-release@v1
-      with:
-        files: ${{ env.PROJECT_RELEASE_PATH }}.zip
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      if: github.event_name == 'release' && github.event.action == 'published'
+        name: ${{ env.PROJECT_RELEASE_PATH }}
+        path: ./${{ env.PROJECT_RELEASE_PATH }}
+        compression-level: 0
