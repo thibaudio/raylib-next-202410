@@ -7,10 +7,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="32a2d832-3b08-452c-95a4-11b4a89ddf97" name="Changes" comment="Remove DrawTextEx">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.raylib_game_template/.idea/indexLayout.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.raylib_game_template/.idea/indexLayout.xml" afterDir="false" />
+    <list default="true" id="32a2d832-3b08-452c-95a4-11b4a89ddf97" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../../.github/workflows/linux.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../../.github/workflows/linux.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../.github/workflows/macos.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../.github/workflows/windows.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../../.github/workflows/windows.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.raylib_game_template/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.raylib_game_template/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../src/raylib_game.c" beforeDir="false" afterPath="$PROJECT_DIR$/../../src/raylib_game.c" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,6 +25,7 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="mock://C:/work/perso/raylib/raylib-next-202410/src/raylib_game.c" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://C:/work/perso/raylib/raylib-next-202410/src/raylib_game.c" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://C:/work/perso/raylib/raylib-next-202410/src/raylib_game.c" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://C:/work/perso/raylib/raylib-next-202410/src/raylib_game.c" root0="SKIP_HIGHLIGHTING" />
@@ -166,7 +168,8 @@
       <updated>1730199587087</updated>
       <workItem from="1730199588296" duration="66000" />
       <workItem from="1730199667847" duration="7378000" />
-      <workItem from="1730214328787" duration="10735000" />
+      <workItem from="1730214328787" duration="11407000" />
+      <workItem from="1730277261099" duration="853000" />
     </task>
     <task id="LOCAL-00001" summary="Rider workspace">
       <option name="closed" value="true" />
@@ -232,7 +235,15 @@
       <option name="project" value="LOCAL" />
       <updated>1730234647374</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="Update window name">
+      <option name="closed" value="true" />
+      <created>1730234881881</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1730234881881</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="UnityCheckinConfiguration" checkUnsavedScenes="true" />
@@ -245,6 +256,7 @@
     <MESSAGE value="Working basic game" />
     <MESSAGE value="Colors + text" />
     <MESSAGE value="Remove DrawTextEx" />
-    <option name="LAST_COMMIT_MESSAGE" value="Remove DrawTextEx" />
+    <MESSAGE value="Update window name" />
+    <option name="LAST_COMMIT_MESSAGE" value="Update window name" />
   </component>
 </project>
