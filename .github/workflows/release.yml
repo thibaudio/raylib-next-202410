@@ -29,11 +29,11 @@ jobs:
           
       - name: Setup release files
         run: |
-          echo "PROJECT_RELEASE_NAME=${{ env.PROJECT_NAME }}_v${{ github.event.release.tag_name }}_wasm" >> $GITHUB_ENV
+          echo "PROJECT_RELEASE_NAME=${{ env.PROJECT_NAME }}_v${{ github.event.release.tag_name }}_wasm.zip" >> $GITHUB_ENV
           
       - name: Rename file
         run: |
-          mv ${{ env.PROJECT_RELEASE_PATH }} ${{ env.PROJECT_RELEASE_NAME }} 
+          mv ${{ env.PROJECT_RELEASE_PATH }}.zip ${{ env.PROJECT_RELEASE_NAME }} 
           
       - name: Upload Artifact to Release
         uses: softprops/action-gh-release@v1
